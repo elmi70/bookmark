@@ -66,6 +66,15 @@ public class BookmarkManager {
         return filteredResult;
     }
 
+    public void removeTagFromBookmark(String url, String tag) {
+        for (Bookmark bookmark : bookmarks) {
+            if (bookmark.getUrl().equals(url)) {
+                bookmark.deleteTag(tag);
+            }
+        }
+
+    }
+
 
     private void addAssociates(Bookmark bookmark) {
         String bookmarkDomain = getDomainName(bookmark.getUrl()); //domain name von unserem Objekt

@@ -37,7 +37,7 @@ public class Bookmark {
     }
 
     public void deleteTag(String tag){
-        this.tags.remove(tag);
+        this.tags.removeIf(currentTag -> currentTag.equalsIgnoreCase(tag));
     }
 
     public List<String> getTags() {
