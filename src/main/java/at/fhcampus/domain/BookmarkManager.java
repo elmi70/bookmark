@@ -81,6 +81,16 @@ public class BookmarkManager {
         return sortedList;
     }
 
+    public List<Bookmark> getSortedBookmarksByDate(){
+        List<Bookmark> sortedList = new ArrayList<>(bookmarks);
+        sortedList.sort((bookmark1, bookmark2) -> {
+            if (bookmark1.getAddingTime() == null || bookmark2.getAddingTime() == null)
+                return 0;
+            return bookmark2.getAddingTime().compareTo(bookmark1.getAddingTime());
+        });
+        return sortedList;
+    }
+
     private void addAssociates(Bookmark bookmark) {
         String bookmarkDomain = getDomainName(bookmark.getUrl()); //domain name von unserem Objekt
         if (bookmarkDomain != null)
