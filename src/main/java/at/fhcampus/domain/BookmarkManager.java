@@ -1,11 +1,13 @@
 package at.fhcampus.domain;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BookmarkManager {
     //list that holds all bookmarks
@@ -23,6 +25,7 @@ public class BookmarkManager {
             }
             Bookmark bookmark = new Bookmark(url);
             bookmarks.add(bookmark);
+            addAssociates(bookmark);
         } else
             throw new IllegalArgumentException("URL is not valid!");
     }
@@ -50,6 +53,25 @@ public class BookmarkManager {
     }
 
 
+    private void addAssociates(Bookmark bookmark) {
+        String bookmarkDomain = getDomainName(bookmark.getUrl()); //domain name von unserem Objekt
+        if (bookmarkDomain != null)
+            /*
+            - www.test.com --> DN: test --> objekt --> weg aus dem stream
+            - www.test.org --> DN: test --> erste element --> dieses element bleibt im stream
+            - www.test.at   --> DN: test
+            - www.test.uk  --> DN: test
+            * */
+            bookmarks.stream()
+                    .filter(element -> Objects.requireNonNull(getDomainName(element.getUrl())).equals(bookmarkDomain)
+                            && !bookmark.equals(element))
+                    .forEach(element -> {
+                        element.addAssociate(bookmark);
+                        bookmark.addAssociate(element);
+                    });
+    }
+
+
     //check whether the url is valid
     private static boolean validateURL(String url) {
         try {
@@ -57,6 +79,17 @@ public class BookmarkManager {
             return true;
         } catch (MalformedURLException | URISyntaxException e) {
             return false;
+        }
+    }
+
+    private static String getDomainName(String url) {
+        try {
+            URI uri = new URI(url);
+            //get domain name --> can be www.test or test
+            String domain = uri.getHost();
+            return domain.startsWith("www.") ? domain.substring(4) : domain;
+        } catch (Exception e) {
+            return null;
         }
     }
 }

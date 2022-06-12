@@ -2,8 +2,7 @@ package at.fhcampus.domain;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -102,6 +101,41 @@ public class BookmarkManagerTest {
         int actualResult = bookmarkManager.getNumbersOfSecureURL();
         // Assert
         assertEquals(expectedResult, actualResult);
+    }
 
+    @Test
+    public void ensureBookmarkHasAssociates() {
+        // Arrange
+        BookmarkManager bookmarkManager = new BookmarkManager();
+        String url1 = "http://test.com/Test/java";
+        String url2 = "https://test.com/Test/programming";
+        String url3 = "https://test.com/Test";
+        // Act
+        bookmarkManager.addBookmark(url1);
+        bookmarkManager.addBookmark(url2);
+        bookmarkManager.addBookmark(url3);
+        // Assert
+        for(Bookmark bookmark : bookmarkManager.getBookmarks()){
+            assertEquals(2, bookmark.getAssociates().size());
+            bookmark.getAssociates().forEach(element -> assertNotEquals(bookmark, element));
+        }
+    }
+
+    @Test
+    public void ensureBookmarkHasNoAssociates() {
+        // Arrange
+        BookmarkManager bookmarkManager = new BookmarkManager();
+        String url1 = "http://test1.com/Test/java";
+        String url2 = "https://test2.com/Test/programming";
+        String url3 = "https://test3.com/Test";
+        // Act
+        bookmarkManager.addBookmark(url1);
+        bookmarkManager.addBookmark(url2);
+        bookmarkManager.addBookmark(url3);
+        // Assert
+        for(Bookmark bookmark : bookmarkManager.getBookmarks()){
+            System.out.println(bookmark);
+            assertEquals(0, bookmark.getAssociates().size());
+        }
     }
 }

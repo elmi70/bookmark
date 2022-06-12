@@ -1,5 +1,6 @@
 package at.fhcampus.domain;
 
+import java.awt.print.Book;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -8,6 +9,7 @@ public class Bookmark {
     private List<String> tags = new ArrayList<>();
     private int rating = 1;
     private boolean secure;
+    private Set<Bookmark> associates = new LinkedHashSet<>();// same domain
 
 
     public Bookmark(String url) {
@@ -62,6 +64,23 @@ public class Bookmark {
         this.secure = secure;
     }
 
+    public void addAssociate(Bookmark bookmark){
+        this.associates.add(bookmark);
+    }
+
+    public void deleteAssociate(Bookmark bookmark){
+        this.associates.remove(bookmark);
+    }
+
+    public Set<Bookmark> getAssociates() {
+        return new LinkedHashSet<>( associates);
+    }
+
+    public void setAssociates(Set<Bookmark> associates) {
+        this.associates = associates;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,7 +89,8 @@ public class Bookmark {
         return rating == bookmark.rating &&
                 secure == bookmark.secure &&
                 Objects.equals(url, bookmark.url) &&
-                Objects.equals(tags, bookmark.tags);
+                Objects.equals(tags, bookmark.tags) &&
+                Objects.equals(associates, bookmark.associates);
     }
 
     @Override
