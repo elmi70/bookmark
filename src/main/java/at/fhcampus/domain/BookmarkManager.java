@@ -5,10 +5,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class BookmarkManager {
     //list that holds all bookmarks
@@ -76,6 +73,12 @@ public class BookmarkManager {
 
     public void removeBookmark(String url) {
         bookmarks.removeIf(currentBookmark -> currentBookmark.getUrl().equals(url));
+    }
+
+    public List<Bookmark> getSortedBookmarksByRating(){
+        List<Bookmark> sortedList = new ArrayList<>(bookmarks);
+        sortedList.sort((bookmark1, bookmark2) -> Integer.compare(bookmark2.getRating(), bookmark1.getRating()));
+        return sortedList;
     }
 
     private void addAssociates(Bookmark bookmark) {
