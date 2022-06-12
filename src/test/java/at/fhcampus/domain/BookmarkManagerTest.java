@@ -65,4 +65,23 @@ public class BookmarkManagerTest {
         // Assert
         assertIterableEquals(expectedResult, actualResult);
     }
+
+
+    @Test
+    public void ensureRatingIsIncreased() {
+        // Arrange
+        int expectedResult = 2;
+        BookmarkManager bookmarkManager = new BookmarkManager();
+        ArrayList<Bookmark> list = new ArrayList<>();
+        String url = "http://test.com/Test";
+        list.add(new Bookmark(url));
+        bookmarkManager.setBookmarks(list);
+        // Act
+        bookmarkManager.addBookmark(url);
+        int actualResult = bookmarkManager.getBookmarks().get(0).getRating();
+
+        // Assert
+        assertEquals(expectedResult, actualResult);
+
+    }
 }

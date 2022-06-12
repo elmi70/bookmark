@@ -15,6 +15,12 @@ public class BookmarkManager {
         if (url == null)
             throw new IllegalArgumentException("Url can't be null"); //to test
         if (validateURL(url)) {
+            for (Bookmark bookmark : bookmarks) {
+                if (bookmark.getUrl().equalsIgnoreCase(url)) {
+                    bookmark.setRating(bookmark.getRating() + 1);
+                    return;
+                }
+            }
             Bookmark bookmark = new Bookmark(url);
             bookmarks.add(bookmark);
         } else

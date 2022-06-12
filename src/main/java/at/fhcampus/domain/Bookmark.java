@@ -6,9 +6,8 @@ import java.util.*;
 public class Bookmark {
     private String url;
     private List<String> tags = new ArrayList<>();
+    private int rating = 1;
 
-    public Bookmark() {
-    }
 
     public Bookmark(String url) {
         this.url = url;
@@ -45,18 +44,27 @@ public class Bookmark {
         this.tags = tags;
     }
 
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bookmark bookmark = (Bookmark) o;
-        return Objects.equals(url, bookmark.url) &&
+        return rating == bookmark.rating &&
+                Objects.equals(url, bookmark.url) &&
                 Objects.equals(tags, bookmark.tags);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(url, tags);
+        return Objects.hash(url, tags, rating);
     }
 
     @Override
@@ -64,6 +72,7 @@ public class Bookmark {
         return "Bookmark{" +
                 "url='" + url + '\'' +
                 ", tags=" + tags +
+                ", rating=" + rating +
                 '}';
     }
 }
