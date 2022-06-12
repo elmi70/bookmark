@@ -21,9 +21,22 @@ public class BookmarkManager {
             throw new IllegalArgumentException("URL is not valid!");
     }
 
+    public void addTagToBookmark(String url, String tag) {
+        bookmarks.forEach(bookmark -> {
+            if (bookmark.getUrl().equals(url)) {
+                bookmark.addTag(tag);
+            }
+        });
+    }
+
     public List<Bookmark> getBookmarks() {
         return new ArrayList<>(bookmarks);
     }
+
+    public void setBookmarks(List<Bookmark> bookmarks) {
+        this.bookmarks = bookmarks;
+    }
+
 
     //check whether the url is valid
     private static boolean validateURL(String url) {

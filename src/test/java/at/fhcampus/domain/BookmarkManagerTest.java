@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,5 +41,28 @@ public class BookmarkManagerTest {
         String url = "http://t est.com/Test";
         // Act
         assertThrows(IllegalArgumentException.class, () -> bookmarkManager.addBookmark(url));
+    }
+
+
+    @Test
+    public void ensureThatUserCanAddOneTagToBookmark() {
+        // Arrange
+        BookmarkManager bookmarkManager = new BookmarkManager();
+        String url = "http://test.com/Test";
+        String tag = "test";
+        List<Bookmark> bookmarkArrayList = bookmarkManager.getBookmarks();
+        Bookmark bookmark = new Bookmark(url);
+        bookmarkArrayList.add(bookmark);
+        bookmarkManager.setBookmarks(bookmarkArrayList);
+
+        List<Bookmark> expectedResult = new ArrayList<>();
+        expectedResult.add(new Bookmark(url, tag));
+
+        // Act
+        bookmarkManager.addTagToBookmark(url, tag);
+        List<Bookmark> actualResult = bookmarkManager.getBookmarks();
+
+        // Assert
+        assertIterableEquals(expectedResult, actualResult);
     }
 }
