@@ -43,6 +43,12 @@ public class BookmarkManager {
         this.bookmarks = bookmarks;
     }
 
+    public int getNumbersOfSecureURL() {
+        return (int) bookmarks.stream()
+                .filter(Bookmark::isSecure)
+                .count();
+    }
+
 
     //check whether the url is valid
     private static boolean validateURL(String url) {

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -80,6 +79,27 @@ public class BookmarkManagerTest {
         bookmarkManager.addBookmark(url);
         int actualResult = bookmarkManager.getBookmarks().get(0).getRating();
 
+        // Assert
+        assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    public void ensureSecureUrlsAreNoticed() {
+        // Arrange
+        BookmarkManager bookmarkManager = new BookmarkManager();
+        String url1 = "http://test.com/Test1";
+        String url2 = "https://test1.com/Test2";
+        String url3 = "https://test1.com/Test3";
+        String url4 = "https://test1.com/Test4";
+        String url5 = "https://test1.com/Test5";
+        bookmarkManager.addBookmark(url1);
+        bookmarkManager.addBookmark(url2);
+        bookmarkManager.addBookmark(url3);
+        bookmarkManager.addBookmark(url4);
+        bookmarkManager.addBookmark(url5);
+        int expectedResult = 4;
+        // Act
+        int actualResult = bookmarkManager.getNumbersOfSecureURL();
         // Assert
         assertEquals(expectedResult, actualResult);
 
