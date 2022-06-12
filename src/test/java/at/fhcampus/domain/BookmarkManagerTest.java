@@ -138,4 +138,89 @@ public class BookmarkManagerTest {
             assertEquals(0, bookmark.getAssociates().size());
         }
     }
+
+    @Test
+    public void ensureFilteringByKeyword() {
+        //Arrange
+        BookmarkManager bookmarkManager = new BookmarkManager();
+        String tag = "health";
+        String url1 = "https://url1test.com";
+        String url2 = "https://url2health.com";
+        String url3 = "https://url3sport.com";
+        String url4 = "https://url4java.com";
+        String url5 = "https://url5prog.com";
+        Bookmark bookmark1 = new Bookmark(url1, "test");
+        Bookmark bookmark2 = new Bookmark(url2, "health");
+        Bookmark bookmark3 = new Bookmark(url3, "sport");
+        Bookmark bookmark4 = new Bookmark(url4, "java");
+        Bookmark bookmark5 = new Bookmark(url5, "prog");
+        List<Bookmark> bookmarks = Arrays.asList(bookmark1, bookmark2,
+                bookmark3, bookmark4, bookmark5);
+        bookmarkManager.setBookmarks(bookmarks);
+        //Act
+        List<Bookmark> actualResult = bookmarkManager.filterByTag(tag);
+
+        //Assert
+        assertEquals(bookmark2, actualResult.get(0));
+    }
+
+    @Test
+    public void ensureFilteringByKeyword2() {
+        //Arrange
+        BookmarkManager bookmarkManager = new BookmarkManager();
+        String tag = "health";
+        String url1 = "https://url1test.com";
+        String url2 = "https://url2health.com";
+        String url3 = "https://url3sport.com";
+        String url4 = "https://url4java.com";
+        String url5 = "https://url5prog.com";
+        Bookmark bookmark1 = new Bookmark(url1, "health");
+        Bookmark bookmark2 = new Bookmark(url2, "health");
+        Bookmark bookmark3 = new Bookmark(url3, "health");
+        Bookmark bookmark4 = new Bookmark(url4, "java");
+        Bookmark bookmark5 = new Bookmark(url5, "prog");
+        List<Bookmark> bookmarks = Arrays.asList(bookmark1, bookmark2,
+                bookmark3, bookmark4, bookmark5);
+        bookmarkManager.setBookmarks(bookmarks);
+        List<Bookmark> expectedResult = Arrays.asList(bookmark1, bookmark2,
+                bookmark3);
+        //Act
+        List<Bookmark> actualResult = bookmarkManager.filterByTag(tag);
+        //ignore order
+        actualResult.sort(Comparator.comparing(Bookmark::getUrl));
+        expectedResult.sort(Comparator.comparing(Bookmark::getUrl));
+
+        //Assert
+        assertIterableEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    public void ensureFilteringByMultipleKeywords() {
+        //Arrange
+        BookmarkManager bookmarkManager = new BookmarkManager();
+        String url1 = "https://url1test.com";
+        String url2 = "https://url2health.com";
+        String url3 = "https://url3sport.com";
+        String url4 = "https://url4java.com";
+        String url5 = "https://url5prog.com";
+        Bookmark bookmark1 = new Bookmark(url1, "test");
+        Bookmark bookmark2 = new Bookmark(url2, "health");
+        Bookmark bookmark3 = new Bookmark(url3, "sport");
+        Bookmark bookmark4 = new Bookmark(url4, "java");
+        Bookmark bookmark5 = new Bookmark(url5, "prog");
+        List<Bookmark> bookmarks = Arrays.asList(bookmark1, bookmark2,
+                bookmark3, bookmark4, bookmark5);
+        bookmarkManager.setBookmarks(bookmarks);
+        List<Bookmark> expectedResult = Arrays.asList(bookmark1, bookmark2,
+                bookmark3);
+        //Act
+        List<Bookmark> actualResult = bookmarkManager
+                .filterByTag("test", "health", "sport");
+        //ignore order
+        actualResult.sort(Comparator.comparing(Bookmark::getUrl));
+        expectedResult.sort(Comparator.comparing(Bookmark::getUrl));
+
+        //Assert
+        assertIterableEquals(expectedResult, actualResult);
+    }
 }

@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,6 +51,19 @@ public class BookmarkManager {
         return (int) bookmarks.stream()
                 .filter(Bookmark::isSecure)
                 .count();
+    }
+
+    public List<Bookmark> filterByTag(String ... tags) {
+        List<Bookmark> filteredResult = new ArrayList<>();
+        for (Bookmark bookmark : bookmarks){
+            for(String tag : bookmark.getTags()){
+                if (Arrays.asList(tags).contains(tag)){
+                    filteredResult.add(bookmark);
+                    break;
+                }
+            }
+        }
+        return filteredResult;
     }
 
 
