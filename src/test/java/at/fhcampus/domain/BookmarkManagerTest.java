@@ -245,4 +245,43 @@ public class BookmarkManagerTest {
         // Assert
         assertIterableEquals(expectedResult, actualResult);
     }
+
+    @Test
+    public void ensureThatBookmarkCanBeRemoved(){
+        // Arrange
+        BookmarkManager bookmarkManager = new BookmarkManager();
+        String url = "http://test.com/Test";
+        List<Bookmark> bookmarkArrayList = bookmarkManager.getBookmarks();
+        Bookmark bookmark = new Bookmark(url);
+        bookmarkArrayList.add(bookmark);
+        bookmarkManager.setBookmarks(bookmarkArrayList);
+        List<Bookmark> expectedResult = new ArrayList<>();
+        // Act
+        bookmarkManager.removeBookmark(url);
+        List<Bookmark> actualResult = bookmarkManager.getBookmarks();
+        // Assert
+        assertIterableEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    public void ensureThatBookmarkCanBeRemoved2(){
+        // Arrange
+        BookmarkManager bookmarkManager = new BookmarkManager();
+        String url = "http://test.com/Test";
+        String url2 = "http://TEST.com/TEST";
+        List<Bookmark> bookmarkArrayList = bookmarkManager.getBookmarks();
+        Bookmark bookmark = new Bookmark(url);
+        Bookmark bookmark2 = new Bookmark(url2);
+        bookmarkArrayList.add(bookmark);
+        bookmarkArrayList.add(bookmark2);
+        bookmarkManager.setBookmarks(bookmarkArrayList);
+
+        List<Bookmark> expectedResult = new ArrayList<>();
+        expectedResult.add(bookmark);
+        // Act
+        bookmarkManager.removeBookmark(url2);
+        List<Bookmark> actualResult = bookmarkManager.getBookmarks();
+        // Assert
+        assertIterableEquals(expectedResult, actualResult);
+    }
 }

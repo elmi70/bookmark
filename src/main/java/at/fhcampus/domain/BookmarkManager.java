@@ -72,9 +72,11 @@ public class BookmarkManager {
                 bookmark.deleteTag(tag);
             }
         }
-
     }
 
+    public void removeBookmark(String url) {
+        bookmarks.removeIf(currentBookmark -> currentBookmark.getUrl().equals(url));
+    }
 
     private void addAssociates(Bookmark bookmark) {
         String bookmarkDomain = getDomainName(bookmark.getUrl()); //domain name von unserem Objekt
