@@ -10,11 +10,13 @@ public class Bookmark {
     private int rating = 1;
     private boolean secure;
     private Set<Bookmark> associates = new LinkedHashSet<>();// same domain
+    private LocalDateTime addingTime;
 
 
     public Bookmark(String url) {
         this.url = url;
         secure = url.startsWith("https");
+        addingTime = LocalDateTime.now();
     }
 
     public Bookmark(String url, String tag) {
@@ -78,6 +80,14 @@ public class Bookmark {
 
     public void setAssociates(Set<Bookmark> associates) {
         this.associates = associates;
+    }
+
+    public LocalDateTime getAddingTime() {
+        return addingTime;
+    }
+
+    public void setAddingTime(LocalDateTime addingTime) {
+        this.addingTime = addingTime;
     }
 
 
